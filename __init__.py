@@ -1050,6 +1050,10 @@ async def add_girl(bot, ev: CQEvent):
     score_counter = ScoreCounter2()
     score = score_counter._get_score(gid, uid)
     level = duel._get_level(gid, uid)
+    if level == 0:
+        msg = '您还未在本群创建过贵族，请发送 创建贵族 开始您的贵族之旅。'
+        await bot.send(ev, msg, at_sender=True)
+        return
     noblename = get_noblename(level)
     girlnum = get_girlnum(level)
     cidlist = duel._get_cards(gid, uid)
@@ -1059,10 +1063,6 @@ async def add_girl(bot, ev: CQEvent):
         msg = '现在正在决斗中哦，请决斗后再升级爵位吧。'
         await bot.send(ev, msg, at_sender=True)
         return  
-    if duel._get_level(gid, uid) == 0:
-        msg = '您还未在本群创建过贵族，请发送 创建贵族 开始您的贵族之旅。'
-        await bot.send(ev, msg, at_sender=True)
-        return
 
     if level == 6:
         msg = f'您已经是国王了， 需要通过声望加冕称帝哦。'
